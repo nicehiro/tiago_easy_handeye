@@ -1,3 +1,26 @@
+# Tiago calibration with realsense camera
+
+``` bash
+# calibrate
+roslaunch easy_handeye tiago_rs.launch
+# publish result tf
+roslaunch easy_handeye tiago_rs_test.launch
+```
+
+Subscribe `tf` result:
+
+``` python
+tf_listener = tf.TransformListener()
+now = rospy.Time(0)
+camera_frame = "camera_color_optical_frame"
+base_frame = "base_link"
+tf_listener.waitForTransform(
+    base_frame, camera_frame, now, rospy.Duration(10.0)
+)
+(trans, rot) = tf_listener.lookupTransform(base_frame, camera_frame, now)
+```
+
+Now, you have the transformation from camera to robot base.
 
 # easy_handeye: automated, hardware-independent Hand-Eye Calibration
 
